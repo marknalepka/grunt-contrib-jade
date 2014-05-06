@@ -83,9 +83,17 @@ module.exports = function(grunt) {
             compiled = 'return ' + compiled;
           }
         } catch (e) {
+          //mcn: this is why I forked the repo, jade error's were not aborting the grunt process since
+          //returning false inside a native forEach loop doesn't do anything more than skipping to the
+          //next iteration of the loop.
+          throw e;
+
+          /* code from the main repo...          
           grunt.log.warn('Jade failed to compile "' + filepath + '".');
           grunt.log.error(e);
           return false;
+          */
+          
         }
 
         if (options.client && options.namespace !== false) {
